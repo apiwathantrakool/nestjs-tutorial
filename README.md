@@ -33,3 +33,7 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+## Section: Introduction
+
+- Create schematic helps: nest g --help
