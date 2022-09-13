@@ -11,7 +11,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
-import { Task, TaskStatus } from './task.model';
+import { Task } from './task.model';
+import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
 
 // For example, http://localhost:3000/tasks
 @Controller('tasks')
@@ -45,8 +46,9 @@ export class TasksController {
   @Patch('/:id/status')
   updateTaskStatus(
     @Param('id') id: string,
-    @Body('status') status: TaskStatus,
+    @Body() updateTaskStatusDto: UpdateTaskStatusDto,
   ): Task {
+    const { status } = updateTaskStatusDto;
     return this.tasksServe.updateTaskStatus(id, status);
   }
 }
