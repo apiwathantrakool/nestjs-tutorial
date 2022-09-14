@@ -21,6 +21,16 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Running the docker
+
+```bash
+# Run PostgreSQL
+docker run --name postgres-nest -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres
+
+# Stop PostgreSQL
+docker container stop postgres-nest
+```
+
 ## Test
 
 ```bash
