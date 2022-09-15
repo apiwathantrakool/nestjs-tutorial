@@ -44,6 +44,6 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Section: Introduction
+## Section: Connect to DB
 
-- Create schematic helps: nest g --help
+- TypeORM APIs: https://typeorm.io/repository-api
