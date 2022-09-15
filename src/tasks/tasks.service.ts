@@ -47,10 +47,11 @@ export class TasksService {
     return task;
   }
 
-  // deleteTask(id: string): void {
-  //   const found = this.getTaskById(id);
-  //   this.tasks = this.tasks.filter((i) => i.id !== found.id);
-  // }
+  async deleteTask(id: string) {
+    const found = await this.getTaskById(id);
+    await this.tasksRepository.delete({ id: found.id });
+  }
+
   // updateTaskStatus(id: string, status: TaskStatus): Task {
   //   const task = this.getTaskById(id);
   //   task.status = status;
