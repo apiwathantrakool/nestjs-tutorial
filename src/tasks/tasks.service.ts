@@ -1,3 +1,4 @@
+import { User } from './../auth/user.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { TaskStatus } from './task.constants';
 import { Injectable, NotFoundException } from '@nestjs/common';
@@ -12,17 +13,17 @@ export class TasksService {
     @InjectRepository(Task) private tasksRepository: Repository<Task>,
   ) {}
 
-  async getTasks(filterDto: GetTaskFilterDto): Promise<Task[]> {
+  async getTasks(filterDto: GetTaskFilterDto, user: User): Promise<Task[]> {
     const { status, search } = filterDto;
     const query = this.tasksRepository.createQueryBuilder('task');
-
+    query.where({ user });
     if (status) {
       query.andWhere('task.status = :status', { status });
     }
 
     if (search) {
       query.andWhere(
-        'LOWER(task.title) LIKE LOWER(:search) OR LOWER(task.description) LIKE LOWER(:search)',
+        '(LOWER(task.title) LIKE LOWER(:search) OR LOWER(task.description) LIKE LOWER(:search))', // adding (...) to prevent where operation replacement
         { search: `%${search}%` },
       );
     }
@@ -39,12 +40,13 @@ export class TasksService {
     return found;
   }
 
-  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+  async createTask(createTaskDto: CreateTaskDto, user: User): Promise<Task> {
     const { title, description } = createTaskDto;
     const task = this.tasksRepository.create({
       title,
       description,
       status: TaskStatus.OPEN,
+      user,
     });
     await this.tasksRepository.save(task);
     return task;

@@ -15,6 +15,7 @@ import {
 import { TasksService } from './tasks.service';
 import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
 import { Task } from './task.entity';
+import { GetUser } from 'src/auth/get-user.decorator';
 
 // For example, http://localhost:3000/tasks
 @Controller('tasks')
@@ -23,8 +24,11 @@ export class TasksController {
   constructor(private tasksServe: TasksService) {}
 
   @Get()
-  getTasks(@Query() filterDto: GetTaskFilterDto): Promise<Task[]> {
-    return this.tasksServe.getTasks(filterDto);
+  getTasks(
+    @Query() filterDto: GetTaskFilterDto,
+    @GetUser() user,
+  ): Promise<Task[]> {
+    return this.tasksServe.getTasks(filterDto, user);
   }
 
   @Get('/:id')
@@ -33,8 +37,11 @@ export class TasksController {
   }
 
   @Post()
-  createTask(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
-    return this.tasksServe.createTask(createTaskDto);
+  createTask(
+    @Body() createTaskDto: CreateTaskDto,
+    @GetUser() user,
+  ): Promise<Task> {
+    return this.tasksServe.createTask(createTaskDto, user);
   }
 
   @Delete('/:id')
