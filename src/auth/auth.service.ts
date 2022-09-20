@@ -11,9 +11,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { Logger } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
+  private logger = new Logger('AuthService', { timestamp: true });
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     private jwtService: JwtService,
@@ -30,6 +32,8 @@ export class AuthService {
     try {
       await this.userRepository.save(user);
     } catch (error) {
+      this.logger.error(`createUser`, error);
+
       // error code return as string
       if (error.code == 23505) {
         throw new ConflictException('Username already exists');
