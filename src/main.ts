@@ -10,7 +10,7 @@ async function bootstrap() {
   app.enableCors({ origin: ['http://localhost:3001'] });
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new TransformInterceptor());
-  const port = 3000;
+  const port = process.env.PORT;
   await app.listen(port);
   logger.verbose(`Application listening on env ${process.env.STAGE}`);
 }
