@@ -44,6 +44,15 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Section: Introduction
+## Section: GraphQL and MongoDB
 
-- Create schematic helps: nest g --help
+```bash
+# run mongo db
+
+docker run --name mongo -p 27017:27017 -d mongo
+
+# run graphQL playground
+
+http://localhost:3000/graphql
+
+```
